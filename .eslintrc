@@ -1,0 +1,24 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "plugins": [
+    "import",
+    "mocha"
+  ],
+  "rules": {
+    "no-multi-spaces": [
+      "off", {
+        "exceptions": {
+          "ImportDeclaration": true,
+          "VariableDeclarator": true
+        }
+      }
+    ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      { "devDependencies": ["!test.js"] }
+    ],
+    "no-console": "off",
+    "class-methods-use-this": "off" 
+  }
+}
