@@ -2,6 +2,7 @@
 
 import messaging    from 'msyn-messaging';
 import Wardenclyffe from './wardenclyffe';
+import RestClient   from './restClient';
 
 /**
  * Asset Assembler
@@ -11,6 +12,7 @@ import Wardenclyffe from './wardenclyffe';
 const Connection = messaging.connections.Default;
 const Receiver   = messaging.receivers.Default;
 const Sender     = messaging.senders.Default;
+const restClient = new RestClient(process.env.asset_rest_service_url);
 
 // Alias Wardenclyffe Helpers
 const { fetchAsset } = Wardenclyffe;
@@ -43,11 +45,15 @@ async function run() {
         // Process
         const asset = await fetchAsset(type, id, originalPayload);
 
-        // Send To Asset Service
-        return await sender.send(asset, {
-          correlation_id: headers.correlation_id,
-          asset_type: type,
-        });
+        // Send To Asset REST Service
+        const update = `mutation { 
+                           AddAsset(asset:{ 
+                                      correlation_id:"${headers.correlation_id}", 
+                                      asset_type: "${type}", 
+                                      payload: "${asset}" 
+                                      }) { id }}`;
+
+        return await restClient.post(update);
       },
     });
     await receiver.connect();

@@ -1,5 +1,5 @@
 {
-  "name": "asset-assembler-service",
+  "name": "asset-assembly-service",
   "version": "0.0.1",
   "description": "MSYN Platform Asset Ingestion Service",
   "main": "index.js",
@@ -20,9 +20,10 @@
     "minimist": "^1.2.0",
     "morgan": "^1.7.0",
     "msyn-messaging": "0.0.5",
-    "pm2": "^2.1.6",
-    "soap": "^0.17.0",
     "uuid": "^3.0.1",
+    "winston": "^2.3.1",
+    "concat-stream": "^1.6.0",
+    "request": "^2.82.0",
     "wardenclyffe-client-node": "^1.0.5"
   },
   "devDependencies": {
@@ -44,7 +45,7 @@
   },
   "scripts": {
     "test": "NODE_ENV=testing babel-node test.js",
-    "lint": "eslint .",
+    "lint": "eslint .; exit 0",
     "build": "babel src --out-dir build --copy-files --no-comments",
     "start": "NODE_ENV=development babel-node worker.js"
   },
